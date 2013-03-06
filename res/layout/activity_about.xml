@@ -1,0 +1,72 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AboutActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/imageButton1"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/robin" />
+
+        <TextView
+            android:id="@+id/tv_robin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/robin"
+            android:textSize="32sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/imageButton2"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/felix" />
+
+        <TextView
+            android:id="@+id/tv_felix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/felix"
+            android:textSize="32sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/imageButton3"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/robin" />
+
+        <TextView
+            android:id="@+id/tv_alex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/alex"
+            android:textSize="32sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
