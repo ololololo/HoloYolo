@@ -3,6 +3,6 @@
 
     <string name="app_name">To-Do List</string>
     <string name="hello_world">#Holo #Yolo</string>
-    <string name="menu_settings">Settings</string>
+    <string name="menu_about">About</string>
 
 </resources>
