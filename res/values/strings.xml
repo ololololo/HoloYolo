@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	<!-- Global -->
     <string name="app_name">To-Do List</string>
-    <string name="hello_world">#Holo #Yolo</string>
+    
+    <!-- MainActivity -->
     <string name="menu_about">About</string>
+    <string name="button_add_title">New Task</string>
 
 </resources>
