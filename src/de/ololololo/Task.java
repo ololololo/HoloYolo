@@ -5,9 +5,15 @@ public class Task {
 		
 	private long id;
     private String name;
-    private long due;
+    private Date due;
     private boolean completed;
 
+    public Task () {}
+    public Task (int id, String name, Date due) {
+    	this.id = id;
+    	this.name = name;
+    	this.due = due;
+    }
 
     public long getId() {
         return id;
@@ -26,11 +32,11 @@ public class Task {
     }
 
     public Date getDue() {
-        return new Date(due);
+        return due;
     }
 
     public void setDue(Date due){
-        this.due = due.getTime();
+        this.due = due;
     }
 
     public boolean isCompleted() {
@@ -43,6 +49,6 @@ public class Task {
     // Will be used by the ArrayAdapter in the ListView
     @Override
     public String toString() {
-        return (completed ? "X " : "O ") + name + " (Due: "+getDue().toString()+")";
+        return (completed ? "X " : "O ") + name + " (Due: "+due.toString()+")";
     }
 } 

@@ -1,5 +1,21 @@
 package de.ololololo.utils;
 
-public class FileHandler {
+import de.ololololo.*;
+import java.util.ArrayList; 
 
+public class FileHandler {
+	
+	//Public Methods
+	public ArrayList<Task> getData() {
+		return null;
+	}
+	
+	public String writeData(ArrayList<Task> data) {
+		if (true) { //write successful
+			return null;
+		} else {
+			//On error
+			return "Error Message";
+		}
+	}
 }
