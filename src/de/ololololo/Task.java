@@ -3,7 +3,7 @@ package de.ololololo;
 import java.util.Date;
 public class Task {
 		
-	private long id;
+	private int id;
     private String name;
     private Date due;
     private boolean completed;
@@ -15,19 +15,19 @@ public class Task {
     	this.due = due;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getname() {
+    public String getName() {
         return name;
     }
 
-    public void setname(String name) {
+    public void setName(String name) {
         this.name= name;
     }
 
@@ -51,4 +51,9 @@ public class Task {
     public String toString() {
         return (completed ? "X " : "O ") + name + " (Due: "+due.toString()+")";
     }
+	@Override
+	public boolean equals(Object arg0) {
+		Task t = (Task)arg0;
+		return (t.getId() == this.id);
+	}
 } 
