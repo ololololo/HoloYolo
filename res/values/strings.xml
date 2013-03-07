@@ -9,13 +9,16 @@
     <string name="button_add_title">New Task</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_about">About</string>
-    
+
     <!-- AboutActivity -->
     <string name="robin">UI Development</string>
     <string name="felix">Logic Development</string>
     <string name="alex">Logic Development</string>
-    
-    <!-- AddDialog -->
-    <string name="title_dialog">New Task</string>
+
+    <!-- EditActivity -->
+    <string name="title_activity_edit">Edit Task</string>
+    <string name="edit_et_hint">Name (required)</string>
+    <string name="edit_bttn_cancel_title">Cancel</string>
+    <string name="edit_bttn_save_title">Save</string>
 
 </resources>

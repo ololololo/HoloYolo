@@ -68,7 +68,8 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// Open Dialog/Activity to add new entry
+				final Intent intent = new Intent(getApplicationContext(), EditActivity.class);
+				startActivity(intent);
 				
 			}
 		});

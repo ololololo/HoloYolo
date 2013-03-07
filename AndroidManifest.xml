@@ -26,6 +26,10 @@
             android:name="de.ololololo.AboutActivity"
             android:label="@string/title_activity_about" >
         </activity>
+        <activity
+            android:name="de.ololololo.EditActivity"
+            android:label="@string/title_activity_edit" >
+        </activity>
     </application>
 
 </manifest>
