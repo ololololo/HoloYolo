@@ -14,5 +14,8 @@
     <string name="robin">UI Development</string>
     <string name="felix">Logic Development</string>
     <string name="alex">Logic Development</string>
+    
+    <!-- AddDialog -->
+    <string name="title_dialog">New Task</string>
 
 </resources>
