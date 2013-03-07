@@ -47,6 +47,6 @@ public class DataSource {
 	}
 	
 	public ArrayList<Task> getTasks () {
-		return null;
+		return tasks;
 	}
 }

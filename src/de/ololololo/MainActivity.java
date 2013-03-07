@@ -1,17 +1,43 @@
 package de.ololololo;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 
 public class MainActivity extends Activity {
 
+	//Data
+	private DataSource mDs;
+	private ArrayList<Task> mTaskList;
+	
+	ArrayAdapter<Task> mAdapter;
+	
+	//UI
+	Button mNewTaskButton;
+	ListView mList;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		mDs = new DataSource(); //also reads the file
+		
+		mTaskList = mDs.getTasks();
+		if (mTaskList == null){ //mTaskList must not be null for initUI()
+			mTaskList = new ArrayList<Task>();
+		}
+		initUI();
+		
 	}
 
 	@Override
@@ -33,6 +59,23 @@ public class MainActivity extends Activity {
 				break;
 		}
 		return super.onMenuItemSelected(featureId, item);
+	}
+	
+	private void initUI(){
+		//Button
+		mNewTaskButton = (Button) findViewById(R.id.button_add);
+		mNewTaskButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// Open Dialog/Activity to add new entry
+				
+			}
+		});
+		//List
+		ListView mList = (ListView) findViewById(R.id.list_main);
+		mAdapter = new ArrayAdapter<Task>(this, android.R.layout.simple_list_item_1, mTaskList);
+		mList.setAdapter(mAdapter);
 	}
 	
 
