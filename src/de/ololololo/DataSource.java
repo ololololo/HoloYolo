@@ -79,9 +79,9 @@ public class DataSource {
 		return tasks;
 
 	}
-	public boolean close(){
+	public boolean save(){
 		//Save the list to the xml
-		return false; //temp buildfix
+		return false; //temp buildfix, return successful or not
 	}
 	
 	public void printAllTasks (){
