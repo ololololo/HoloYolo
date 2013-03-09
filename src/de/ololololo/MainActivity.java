@@ -14,7 +14,9 @@ import android.widget.Button;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
-
+	// Static strings for exchanging data with bundles
+	public static String BUNDLE_TASK_ID = "bundle_task_id";
+	
 	//Data
 	private DataSource mDs;
 	private ArrayList<Task> mTaskList;
@@ -30,7 +32,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		mDs = new DataSource(); //also reads the file
+		mDs = DataSource.getInstance(); //also reads the file
 		
 		mTaskList = mDs.getTasks();
 		if (mTaskList == null){ //mTaskList must not be null for initUI()

@@ -7,11 +7,13 @@ import java.util.Date;
 
 public class DataSource {
 
+	private static DataSource instance;
+	
 	private FileHandler fileHandler;
 	private ArrayList<Task> tasks;
 	private int lastId;
 	
-	public DataSource() {
+	private DataSource() {
 		fileHandler = new FileHandler();
 		tasks = fileHandler.getData();
 		
@@ -24,6 +26,12 @@ public class DataSource {
 		}
 	}
 	
+	public static DataSource getInstance(){
+		if (instance == null){
+			instance = new DataSource();
+		}
+		return instance;
+	}
 	
 	public void newTask (String name, Date dueDate) {
 		lastId++;
@@ -69,14 +77,16 @@ public class DataSource {
 	}
 	public ArrayList<Task> getTasks () {
 		return tasks;
-<<<<<<< HEAD
-=======
+
+	}
+	public boolean close(){
+		//Save the list to the xml
+		return false; //temp buildfix
 	}
 	
 	public void printAllTasks (){
 		for (Task t : tasks) {
 			System.out.println(t.getId() + ": " + t.getName() + (t.isCompleted() ? "(Completed)" : "(not completed)"));
 		}
->>>>>>> Added tests
 	}
 }
