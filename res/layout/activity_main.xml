@@ -9,8 +9,8 @@
         android:id="@+id/list_main"
         android:layout_width="match_parent"
         android:layout_height="370dp"
-        android:scrollbars="vertical" >
-	</ListView>
+        android:scrollbars="vertical"
+        android:clickable="true" />
 
     <Button
         android:id="@+id/button_add"

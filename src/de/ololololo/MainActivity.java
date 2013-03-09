@@ -4,14 +4,22 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	// Static strings for exchanging data with bundles
@@ -67,7 +75,6 @@ public class MainActivity extends Activity {
 		//Button
 		mNewTaskButton = (Button) findViewById(R.id.button_add);
 		mNewTaskButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				final Intent intent = new Intent(getApplicationContext(), EditActivity.class);
@@ -79,7 +86,46 @@ public class MainActivity extends Activity {
 		ListView mList = (ListView) findViewById(R.id.list_main);
 		mAdapter = new ArrayAdapter<Task>(this, android.R.layout.simple_list_item_1, mTaskList);
 		mList.setAdapter(mAdapter);
-	}
-	
+		mList.setOnItemClickListener(new OnItemClickListener() {
 
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				final Task tmpTask = (Task) parent.getItemAtPosition(position);
+				Builder builder = new Builder(MainActivity.this, AlertDialog.THEME_HOLO_DARK);
+			    builder.setMessage(R.string.dialog_message);
+			    builder.setPositiveButton(R.string.dialog_positive, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						mDs.removeTask(tmpTask.getId());
+						mAdapter.notifyDataSetChanged();
+						Toast.makeText(getApplicationContext(), tmpTask.getName() + " deleted.", Toast.LENGTH_SHORT).show();
+						
+					}
+				});
+				builder.setNeutralButton(R.string.dialog_neutal, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						final Intent intent = new Intent(getApplicationContext(), EditActivity.class);
+						intent.putExtra(BUNDLE_TASK_ID, tmpTask.getId());
+						startActivity(intent);
+						mAdapter.notifyDataSetChanged();
+						
+					}
+				});
+			    builder.setNegativeButton(R.string.dialog_negative, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// Do nothing
+						
+					}
+				});
+				builder.show();
+				
+			}
+		});
+	}
 }
