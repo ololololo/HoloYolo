@@ -72,11 +72,13 @@ public class EditActivity extends Activity {
 				String tmpName = mEtTaskname.getText().toString();
 				Date tmpDate = new Date(mDatePicker.getYear(), mDatePicker.getMonth(), mDatePicker.getDayOfMonth());
 				
-				if(mTaskId == -1){ // not defined in onCreate, we are making a new one
+				if(mTaskId == -1){ // not defined in onCreate, we are creating a new task
 					mDs.newTask(tmpName, tmpDate);
-				} else { // we have an existing task and only update it
+				} else { // we have an existing task and update it
 					mDs.editTask(mTaskId, tmpName, tmpDate);
 				}
+				
+				finish();
 				
 			}
 		});
