@@ -52,6 +52,12 @@ public class MainActivity extends Activity {
 		mDs.save();
 		super.onPause();
 	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		mAdapter.notifyDataSetChanged();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
