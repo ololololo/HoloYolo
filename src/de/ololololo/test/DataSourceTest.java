@@ -12,7 +12,7 @@ public class DataSourceTest {
 	}
 	
 	public void main () {
-		dataSource = DataSource.getInstance();
+		dataSource = DataSource.getInstance(null);
 		
 		dataSource.printAllTasks();
 		dataSource.newTask("Test", new Date());

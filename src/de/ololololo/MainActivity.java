@@ -38,24 +38,23 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		mDs = DataSource.getInstance(); //also reads the file
+		mDs = DataSource.getInstance(this); //also reads the file
 		
 		mTaskList = mDs.getTasks();
-		if (mTaskList == null){ //mTaskList must not be null for initUI()
-			mTaskList = new ArrayList<Task>();
-		}
 		initUI();
 	}
 	
 	@Override
 	protected void onPause() {
-		mDs.save();
+		//mDs.save(); nicht mehr noetig
+		
 		super.onPause();
 	}
 	
 	@Override
 	protected void onResume(){
 		super.onResume();
+        mDs.getTasks();
 		mAdapter.notifyDataSetChanged();
 	}
 

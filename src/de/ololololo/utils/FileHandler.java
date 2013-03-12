@@ -32,7 +32,7 @@ public class FileHandler extends Activity{
 		for (int i = 0;i<data.size();i++)
 		{
 			values.put("id", data.get(i).getId());
-			values.put("task", data.get(i).getname());
+			values.put("task", data.get(i).getName());
 			values.put("date", data.get(i).getDue().toString());
 		}
 		

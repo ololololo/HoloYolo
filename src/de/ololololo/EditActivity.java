@@ -29,7 +29,7 @@ public class EditActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit);
 		
-		mDs = DataSource.getInstance();
+		mDs = DataSource.getInstance(this);
 				
 		initUI();
 		
