@@ -3,18 +3,15 @@ package de.ololololo.utils;
 import de.ololololo.*;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.ArrayList; 
 
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
 
 public class FileHandler extends Activity{
 
-	private Context ctx;
 	private SQLiteDatabase db;
 	
 	//Public Methods

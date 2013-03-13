@@ -3,7 +3,7 @@ package de.ololololo;
 import de.ololololo.utils.*;
  
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -44,10 +44,10 @@ public class DataSource {
         mDbHelper.close();
     }
 
-    public Task newTask(String name, Date dueDate) {
+    public Task newTask(String name, Calendar dueDate) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_NAME, name);
-        values.put(MySQLiteHelper.COLUMN_DUE, dueDate.getTime());
+        values.put(MySQLiteHelper.COLUMN_DUE, dueDate.getTimeInMillis());
         values.put(MySQLiteHelper.COLUMN_COMPLETED, 0);
         long insertId = mDatabase.insert(MySQLiteHelper.TABLE_ITEMS, null,
                 values);
@@ -92,17 +92,19 @@ public class DataSource {
 
     private Task cursorToTask(Cursor cursor) {
         Task task = new Task();
+        Calendar tmpCal = Calendar.getInstance();
+        tmpCal.setTimeInMillis(cursor.getLong(2));
         task.setId((int)cursor.getLong(0));
         task.setName(cursor.getString(1));
-        task.setDue(new Date(cursor.getLong(2)));
+        task.setDue(tmpCal);
         task.setCompleted(cursor.getInt(3) == 0 ? false : true);
         return task;
     }
 	
-	public void editTask (int id, String newName, Date newDueDate) {
+	public void editTask (int id, String newName, Calendar newDueDate) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_NAME, newName);
-        values.put(MySQLiteHelper.COLUMN_DUE, newDueDate.getTime());
+        values.put(MySQLiteHelper.COLUMN_DUE, newDueDate.getTimeInMillis());
         String where = MySQLiteHelper.COLUMN_ID + "=" +id;
         mDatabase.update(MySQLiteHelper.TABLE_ITEMS, values, where,null);
         getTasks();

@@ -1,15 +1,15 @@
 package de.ololololo;
 
-import java.util.Date;
+import java.util.Calendar;
 public class Task {
 		
 	private int id;
     private String name;
-    private Date due;
+    private Calendar due;
     private boolean completed;
 
     public Task () {}
-    public Task (int id, String name, Date due) {
+    public Task (int id, String name, Calendar due) {
     	this.id = id;
     	this.name = name;
     	this.due = due;
@@ -31,11 +31,11 @@ public class Task {
         this.name= name;
     }
 
-    public Date getDue() {
+    public Calendar getDue() {
         return due;
     }
 
-    public void setDue(Date due){
+    public void setDue(Calendar due){
         this.due = due;
     }
 
@@ -49,7 +49,8 @@ public class Task {
     // Will be used by the ArrayAdapter in the ListView
     @Override
     public String toString() {
-        return (completed ? "X " : "O ") + name + " (Due: "+due.toString()+")";
+    	return name + ";  Due: " + due.get(Calendar.DAY_OF_MONTH) + "." + (due.get(Calendar.MONTH)+1) + "." + due.get(Calendar.YEAR);
+        // debug return (completed ? "X " : "O ") + name + " (Due: "+due.toString()+")";
     }
 	@Override
 	public boolean equals(Object arg0) {

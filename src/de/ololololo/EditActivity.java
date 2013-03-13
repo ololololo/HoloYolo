@@ -1,7 +1,7 @@
 package de.ololololo;
 
 
-import java.util.Date;
+import java.util.Calendar;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -40,8 +40,8 @@ public class EditActivity extends Activity {
 			Task mTask = mDs.getTask(mTaskId);
 			
 			mEtTaskname.setText(mTask.getName());
-			Date tmpDate = mTask.getDue();
-			mDatePicker.updateDate(tmpDate.getYear(), tmpDate.getMonth(), tmpDate.getDay());
+			Calendar tmpDate = mTask.getDue();
+			mDatePicker.updateDate(tmpDate.get(Calendar.YEAR), tmpDate.get(Calendar.MONTH), tmpDate.get(Calendar.DAY_OF_MONTH));
 		}
 	}
 
@@ -70,12 +70,13 @@ public class EditActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				String tmpName = mEtTaskname.getText().toString();
-				Date tmpDate = new Date(mDatePicker.getYear(), mDatePicker.getMonth(), mDatePicker.getDayOfMonth());
+				Calendar cal = Calendar.getInstance();
+				cal.set(mDatePicker.getYear(), mDatePicker.getMonth(), mDatePicker.getDayOfMonth());
 				
 				if(mTaskId == -1){ // not defined in onCreate, we are creating a new task
-					mDs.newTask(tmpName, tmpDate);
+					mDs.newTask(tmpName, cal);
 				} else { // we have an existing task and update it
-					mDs.editTask(mTaskId, tmpName, tmpDate);
+					mDs.editTask(mTaskId, tmpName, cal);
 				}
 				
 				finish();
