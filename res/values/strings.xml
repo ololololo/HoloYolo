@@ -24,5 +24,6 @@
     <string name="edit_et_hint">Name (required)</string>
     <string name="edit_bttn_cancel_title">Cancel</string>
     <string name="edit_bttn_save_title">Save</string>
+    <string name="edit_toast">The name must not be empty!</string>
 
 </resources>

@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class EditActivity extends Activity {
 	//Logic
@@ -70,16 +71,20 @@ public class EditActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				String tmpName = mEtTaskname.getText().toString();
-				Calendar cal = Calendar.getInstance();
-				cal.set(mDatePicker.getYear(), mDatePicker.getMonth(), mDatePicker.getDayOfMonth());
+				if(tmpName.trim().length() > 0){
+					Calendar cal = Calendar.getInstance();
+					cal.set(mDatePicker.getYear(), mDatePicker.getMonth(), mDatePicker.getDayOfMonth());
+					
+					if(mTaskId == -1){ // not defined in onCreate, we are creating a new task
+						mDs.newTask(tmpName, cal);
+					} else { // we have an existing task and update it
+						mDs.editTask(mTaskId, tmpName, cal);
+					}
+					finish();
+				} else {
+					Toast.makeText(getApplicationContext(), R.string.edit_toast, Toast.LENGTH_SHORT).show();
+				}			
 				
-				if(mTaskId == -1){ // not defined in onCreate, we are creating a new task
-					mDs.newTask(tmpName, cal);
-				} else { // we have an existing task and update it
-					mDs.editTask(mTaskId, tmpName, cal);
-				}
-				
-				finish();
 				
 			}
 		});
