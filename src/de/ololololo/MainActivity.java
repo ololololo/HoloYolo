@@ -44,12 +44,6 @@ public class MainActivity extends Activity {
 		initUI();
 	}
 	
-	@Override
-	protected void onPause() {
-		//mDs.save(); nicht mehr noetig
-		
-		super.onPause();
-	}
 	
 	@Override
 	protected void onResume(){
