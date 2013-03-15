@@ -14,20 +14,22 @@ import android.database.sqlite.SQLiteDatabase;
 public class DataSource {
 
 	private static DataSource instance;
-	
-	// Database fields
+
     private SQLiteDatabase mDatabase;
     private MySQLiteHelper mDbHelper;
     private String[] mAllColumns = { MySQLiteHelper.COLUMN_ID,
             MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_DUE,MySQLiteHelper.COLUMN_COMPLETED };
 
+    //ArrayList, that contains all Tasks
     private ArrayList<Task> mTasks;
 
     private DataSource(Context context) {
+    	//Creates Database, if needed. Initializes it.
         mDbHelper = new MySQLiteHelper(context);
     }
 	
 	public static DataSource getInstance(Context context){
+		//There should only be one instance of the datasource at a time (singleton)
 		if (instance == null){
 			instance = new DataSource(context);
             instance.open();
@@ -37,6 +39,7 @@ public class DataSource {
 	}
 	
 	public void open() throws SQLException {
+		//Opens database for r/w
         mDatabase = mDbHelper.getWritableDatabase();
     }
 
@@ -44,40 +47,49 @@ public class DataSource {
         mDbHelper.close();
     }
 
+    //Creates a task in db with specified name, date and returns it
     public Task newTask(String name, Calendar dueDate) {
+    	//Variable, that holds all information to be inserted into db
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_NAME, name);
         values.put(MySQLiteHelper.COLUMN_DUE, dueDate.getTimeInMillis());
         values.put(MySQLiteHelper.COLUMN_COMPLETED, 0);
-        long insertId = mDatabase.insert(MySQLiteHelper.TABLE_ITEMS, null,
-                values);
+        
+        
+        long insertId = mDatabase.insert(MySQLiteHelper.TABLE_ITEMS, null, values);
+        
+        //get inserted Task back from db
         Cursor cursor = mDatabase.query(MySQLiteHelper.TABLE_ITEMS,
                 mAllColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
                 null, null, null);
         cursor.moveToFirst();
         Task newItem = cursorToTask(cursor);
         cursor.close();
+        
+        //Fetches all tasks from db and saved them into mTasks
         getTasks();
         return newItem;
     }
 
+    //removes given task from db
     public void removeTask(Task task) {
         int id = task.getId();
         removeTask(id);
-    }    
+    }  
+    //removes given task (by id) from db  
     public void removeTask(int id) {
-        System.out.println("Item deleted with id: " + id);
-        mDatabase.delete(MySQLiteHelper.TABLE_ITEMS, MySQLiteHelper.COLUMN_ID
-                + " = " + id, null);
+        mDatabase.delete(MySQLiteHelper.TABLE_ITEMS, MySQLiteHelper.COLUMN_ID + " = " + id, null);
+
+        //Fetches all tasks from db and saved them into mTasks
         getTasks();
     }
 
-    
+    //Reads all tasks from db, saves them in mTasks and returns mTasks
     public ArrayList<Task> getTasks() {
+    	//Empty task list
         mTasks.clear();
 
-        Cursor cursor = mDatabase.query(MySQLiteHelper.TABLE_ITEMS,
-                mAllColumns, null, null, null, null, null);
+        Cursor cursor = mDatabase.query(MySQLiteHelper.TABLE_ITEMS, mAllColumns, null, null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -90,6 +102,7 @@ public class DataSource {
         return mTasks;
     }
 
+    //Helping method to convert db cursor to task object
     private Task cursorToTask(Cursor cursor) {
         Task task = new Task();
         Calendar tmpCal = Calendar.getInstance();
@@ -98,21 +111,27 @@ public class DataSource {
         task.setName(cursor.getString(1));
         task.setDue(tmpCal);
         task.setCompleted(cursor.getInt(3) == 0 ? false : true);
+        
         return task;
     }
 	
+    //Edits name and date of task with specified id 
 	public void editTask (int id, String newName, Calendar newDueDate) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_NAME, newName);
         values.put(MySQLiteHelper.COLUMN_DUE, newDueDate.getTimeInMillis());
+        
         String where = MySQLiteHelper.COLUMN_ID + "=" +id;
+        
         mDatabase.update(MySQLiteHelper.TABLE_ITEMS, values, where,null);
+
+        //Fetches all tasks from db and saved them into mTasks
         getTasks();
 	}
 	
+	//Finds a task by id
 	public Task getTask (int id) {
-        Cursor cursor = mDatabase.query(MySQLiteHelper.TABLE_ITEMS,
-                mAllColumns, MySQLiteHelper.COLUMN_ID+"="+id, null, null, null, null);
+        Cursor cursor = mDatabase.query(MySQLiteHelper.TABLE_ITEMS, mAllColumns, MySQLiteHelper.COLUMN_ID+"="+id, null, null, null, null);
 
         Task task;
         cursor.moveToFirst();
@@ -128,8 +147,9 @@ public class DataSource {
         return task;
 	}
 	
+	//Prints all tasks on console (for debugging)
 	public void printAllTasks (){
-		for (Task t : getTasks()) {
+		for (Task t : mTasks) {
 			System.out.println(t.getId() + ": " + t.getName() + (t.isCompleted() ? "(Completed)" : "(not completed)"));
 		}
 	}
