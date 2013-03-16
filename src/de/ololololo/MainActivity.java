@@ -1,6 +1,10 @@
 package de.ololololo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
+
+import com.google.android.gms.common.AccountPicker;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -8,6 +12,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +28,8 @@ public class MainActivity extends Activity {
 	// Static strings for exchanging data with bundles
 	public static String BUNDLE_TASK_ID = "bundle_task_id";
 	
+	private static final int REQUEST_CODE = 1337;
+	
 	//Data
 	private DataSource mDs;
 	private ArrayList<Task> mTaskList;
@@ -31,6 +38,7 @@ public class MainActivity extends Activity {
 	
 	//UI
 	Button mNewTaskButton;
+	Button mAccountButton;
 	ListView mList;
 	
 	@Override
@@ -42,6 +50,7 @@ public class MainActivity extends Activity {
 		
 		mTaskList = mDs.getTasks();
 		initUI();
+		
 	}
 	
 	
@@ -50,6 +59,24 @@ public class MainActivity extends Activity {
 		super.onResume();
         mDs.getTasks();
 		mAdapter.notifyDataSetChanged();
+	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data){
+		if(resultCode == RESULT_OK){
+			switch(requestCode){
+				case REQUEST_CODE:
+					Log.i("jo", "ich bin zurück");
+					Bundle extras = data.getExtras();
+					Set<String> keys = extras.keySet();
+					Iterator<String> iterate = keys.iterator();
+					if(iterate.hasNext()){
+						String accountType = extras.getString(iterate.next());
+						String authAccount = extras.getString(iterate.next());
+						Log.i("BLA", accountType + authAccount);
+					}
+					break;
+			}
+		}
 	}
 
 	@Override
@@ -81,6 +108,17 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				final Intent intent = new Intent(getApplicationContext(), EditActivity.class);
 				startActivity(intent);
+				
+			}
+		});
+		
+		mAccountButton = (Button) findViewById(R.id.button_account);
+		mAccountButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent accIntent = AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"},false, null, null, null, null);
+				startActivityForResult(accIntent, REQUEST_CODE);
 				
 			}
 		});
