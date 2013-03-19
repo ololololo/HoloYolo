@@ -6,6 +6,8 @@ import java.util.Set;
 
 import com.google.android.gms.common.AccountPicker;
 
+import de.ololololo.utils.CalendarHelper;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -65,15 +67,16 @@ public class MainActivity extends Activity {
 		if(resultCode == RESULT_OK){
 			switch(requestCode){
 				case REQUEST_CODE:
-					Log.i("jo", "ich bin zurück");
 					Bundle extras = data.getExtras();
 					Set<String> keys = extras.keySet();
 					Iterator<String> iterate = keys.iterator();
 					if(iterate.hasNext()){
 						String accountType = extras.getString(iterate.next());
 						String authAccount = extras.getString(iterate.next());
-						Log.i("BLA", accountType + authAccount);
+						CalendarHelper cH = new CalendarHelper();
+						cH.syncEvent(accountType, authAccount, this);
 					}
+					
 					break;
 			}
 		}
@@ -109,6 +112,7 @@ public class MainActivity extends Activity {
 				final Intent intent = new Intent(getApplicationContext(), EditActivity.class);
 				startActivity(intent);
 				
+				
 			}
 		});
 		
@@ -139,6 +143,11 @@ public class MainActivity extends Activity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						mDs.removeTask(tmpTask.getId());
+						if(tmpTask.getEventID() != -1)
+						{
+							CalendarHelper.deleteFromCalendar(tmpTask.getEventID(), getApplicationContext());
+						}
+						
 						mAdapter.notifyDataSetChanged();
 						Toast.makeText(getApplicationContext(), tmpTask.getName() + " deleted.", Toast.LENGTH_SHORT).show();
 						

@@ -24,6 +24,7 @@ public class EditActivity extends Activity {
 	DatePicker mDatePicker;
 	Button mBttnCancel;
 	Button mBttnSave;
+	long mEventID;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class EditActivity extends Activity {
 			Bundle extras = getIntent().getExtras();
 			mTaskId = extras.getInt(MainActivity.BUNDLE_TASK_ID);
 			Task mTask = mDs.getTask(mTaskId);
+			mEventID = mTask.getEventID();
 			
 			mEtTaskname.setText(mTask.getName());
 			Calendar tmpDate = mTask.getDue();
@@ -76,9 +78,9 @@ public class EditActivity extends Activity {
 					cal.set(mDatePicker.getYear(), mDatePicker.getMonth(), mDatePicker.getDayOfMonth());
 					
 					if(mTaskId == -1){ // not defined in onCreate, we are creating a new task
-						mDs.newTask(tmpName, cal);
+						mDs.newTask(tmpName, cal,-1);
 					} else { // we have an existing task and update it
-						mDs.editTask(mTaskId, tmpName, cal);
+						mDs.editTask(mTaskId, tmpName, cal, mEventID);
 					}
 					finish();
 				} else {

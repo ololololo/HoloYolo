@@ -18,7 +18,7 @@ public class DataSource {
     private SQLiteDatabase mDatabase;
     private MySQLiteHelper mDbHelper;
     private String[] mAllColumns = { MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_DUE,MySQLiteHelper.COLUMN_COMPLETED };
+            MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_DUE,MySQLiteHelper.COLUMN_EVENTID };
 
     //ArrayList, that contains all Tasks
     private ArrayList<Task> mTasks;
@@ -48,12 +48,13 @@ public class DataSource {
     }
 
     //Creates a task in db with specified name, date and returns it
-    public Task newTask(String name, Calendar dueDate) {
+    public Task newTask(String name, Calendar dueDate, long eventid) {
     	//Variable, that holds all information to be inserted into db
+    	long tome  = dueDate.getTimeInMillis();
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_NAME, name);
         values.put(MySQLiteHelper.COLUMN_DUE, dueDate.getTimeInMillis());
-        values.put(MySQLiteHelper.COLUMN_COMPLETED, 0);
+        values.put(MySQLiteHelper.COLUMN_EVENTID, eventid);
         
         
         long insertId = mDatabase.insert(MySQLiteHelper.TABLE_ITEMS, null, values);
@@ -75,6 +76,7 @@ public class DataSource {
     public void removeTask(Task task) {
         int id = task.getId();
         removeTask(id);
+        
     }  
     //removes given task (by id) from db  
     public void removeTask(int id) {
@@ -109,17 +111,19 @@ public class DataSource {
         tmpCal.setTimeInMillis(cursor.getLong(2));
         task.setId((int)cursor.getLong(0));
         task.setName(cursor.getString(1));
+        task.setEventID(cursor.getLong(3));
         task.setDue(tmpCal);
-        task.setCompleted(cursor.getInt(3) == 0 ? false : true);
+        
         
         return task;
     }
 	
     //Edits name and date of task with specified id 
-	public void editTask (int id, String newName, Calendar newDueDate) {
+	public void editTask (int id, String newName, Calendar newDueDate, long eventid) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_NAME, newName);
         values.put(MySQLiteHelper.COLUMN_DUE, newDueDate.getTimeInMillis());
+        values.put(MySQLiteHelper.COLUMN_EVENTID, eventid);
         
         String where = MySQLiteHelper.COLUMN_ID + "=" +id;
         
